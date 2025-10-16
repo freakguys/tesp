@@ -36,6 +36,13 @@ jobs:
           
           echo "✅ Konten berhasil disimpan ke $OUTPUT_FILE"
           
+      - name: Mengubah Domain
+        run: |
+          echo "Mengubah domain ke ava"
+          
+          sed -i "s/paid.fridom.qzz.io/ava.game.naver.com/g" $OUTPUT_FILE"
+          sed -i "s/@paid.fridom.qzz.io/@ava.game.naver.com/g" $OUTPUT_FILE"
+          
       # Langkah 3: Commit dan Push file hasil scraping kembali ke repositori
       - name: Commit and Push new file
         # Action pihak ketiga untuk commit otomatis
