@@ -1,0 +1,7 @@
+{
+    "url": "https://paid.fridom.qzz.io/api/v1/sub?vpn=vless&port=443&cc=ID&domain=bug.com&format=raw&limit=10",
+    "timestamp": "2025-10-16T09:54:49.510043",
+    "page_title": "Judul Tidak Ditemukan",
+    "total_paragraphs": 0,
+    "sample_content": []
+}
