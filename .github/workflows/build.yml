@@ -31,7 +31,7 @@ jobs:
           
       # Langkah 4: Jalankan skrip scraping
       - name: Run Web Scraping Script
-        run: python scrape.py
+        run: python scr.py
         
       # Langkah 5: Commit dan Push file hasil scraping kembali ke repositori
       - name: Commit and Push new data
