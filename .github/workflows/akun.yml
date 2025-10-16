@@ -41,6 +41,8 @@ jobs:
           echo "current path is: $(pwd)"
           ls -l akunn.txt
           sed -i "s/paid.fridom.qzz.io/ava.game.naver.com/g" "${{ env.OUTPUT_FILE }}"
+          sed -i "s/host: ava.game.naver.com/host: ava.game.naver.com.paid.fridom.qzz.io/g" "${{ env.OUTPUT_FILE }}"
+          sed -i "s/sni: ava.game.naver.com/sni: ava.game.naver.com.paid.fridom.qzz.io/g" "${{ env.OUTPUT_FILE }}"
           
       # Langkah 3: Commit dan Push file hasil scraping kembali ke repositori
       - name: Commit and Push new file
