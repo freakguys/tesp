@@ -14,7 +14,6 @@ jobs:
     
     # Definisikan variabel lingkungan di tingkat job atau step
     env:
-      TARGET_URL: 'https://paid.fridom.qzz.io/api/v1/sub?vpn=vless&port=443&cc=ID&domain=bug.com&format=raw&limit=10' # <-- GANTI URL INI
       OUTPUT_FILE: 'akunn.txt'
 
     steps:
@@ -22,20 +21,6 @@ jobs:
       - name: Checkout Repository Code
         uses: actions/checkout@v4
 
-      # Langkah 2: Ambil konten website menggunakan cURL dan simpan ke file
-      - name: Fetch Website Content with cURL
-        run: |
-          echo "Mengambil konten dari $TARGET_URL..."
-          # Menggunakan cURL untuk mengambil konten dan menyimpannya ke variabel lingkungan
-          # -s: mode senyap (silent)
-          # -o: output ke file
-          curl -s $TARGET_URL -o $OUTPUT_FILE
-
-          # Tambahkan metadata (opsional)
-          echo "" >> $OUTPUT_FILE
-          
-          echo "✅ Konten berhasil disimpan ke $OUTPUT_FILE"
-          
       - name: ganti domain
         run: |
           echo "current path is: $(pwd)"
