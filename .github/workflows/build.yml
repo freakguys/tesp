@@ -39,6 +39,6 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           # Nama file yang dihasilkan oleh skrip Python
-          file_pattern: 'scraped_data.json' 
+          file_pattern: 'tes.txt' 
           # Pesan commit yang akan digunakan
           commit_message: 'Otomatis: Update hasil web scraping konten website'
