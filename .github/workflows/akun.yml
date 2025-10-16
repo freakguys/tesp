@@ -36,12 +36,11 @@ jobs:
           
           echo "✅ Konten berhasil disimpan ke $OUTPUT_FILE"
           
-      - name: Mengubah Domain
+      - name: ganti domain
         run: |
-          echo "" >> $OUTPUT_FILE
-          
-          sed -i "s/paid.fridom.qzz.io/ava.game.naver.com/g" ./akunn.txt"
-          sed -i "s/@paid.fridom.qzz.io/@ava.game.naver.com/g" ./akunn.txt"
+          echo "current path is: $(pwd)"
+          ls -l akunn.txt
+          sed -i "s/paid.fridom.qzz.io/ava.game.naver.com/g" "${{ env.OUTPUT_FILE }}"
           
       # Langkah 3: Commit dan Push file hasil scraping kembali ke repositori
       - name: Commit and Push new file
@@ -52,3 +51,4 @@ jobs:
           file_pattern: ${{ env.OUTPUT_FILE }}
           # Pesan commit
           commit_message: 'Otomatis: Update konten website menggunakan cURL'
+          
