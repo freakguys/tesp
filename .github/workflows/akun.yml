@@ -6,7 +6,7 @@ on:
   schedule:
     - cron: '0 9 * * *'
   # Memungkinkan pemicuan manual
-  workflow_dispatch:
+  push:
 
 jobs:
   scrape_with_curl:
