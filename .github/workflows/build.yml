@@ -1,0 +1,44 @@
+name: Otomatis
+
+# Tentukan kapan workflow harus dijalankan
+on:
+  # 1. Jadwal (Contoh ini berjalan setiap hari pada pukul 12:00 UTC)
+  schedule:
+    - cron: '0 12 * * *'
+  # 2. Manual (Memungkinkan Anda menjalankan secara manual dari tab Actions)
+  workflow_dispatch:
+
+jobs:
+  scrape_and_save:
+    runs-on: ubuntu-latest
+    
+    steps:
+      # Langkah 1: Checkout kode repositori (agar skrip tersedia)
+      - name: Checkout Repository Code
+        uses: actions/checkout@v4
+
+      # Langkah 2: Setup lingkungan Python
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      # Langkah 3: Install dependensi dari requirements.txt
+      - name: Install Python Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          
+      # Langkah 4: Jalankan skrip scraping
+      - name: Run Web Scraping Script
+        run: python scrape.py
+        
+      # Langkah 5: Commit dan Push file hasil scraping kembali ke repositori
+      - name: Commit and Push new data
+        # Action ini akan secara otomatis melakukan git commit dan push jika ada perubahan pada file
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          # Nama file yang dihasilkan oleh skrip Python
+          file_pattern: 'scraped_data.json' 
+          # Pesan commit yang akan digunakan
+          commit_message: 'Otomatis: Update hasil web scraping konten website'
