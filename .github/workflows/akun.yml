@@ -1,0 +1,47 @@
+name: ambil
+
+# Tentukan kapan workflow harus dijalankan
+on:
+  # Berjalan setiap hari pada pukul 09:00 UTC
+  schedule:
+    - cron: '0 9 * * *'
+  # Memungkinkan pemicuan manual
+  workflow_dispatch:
+
+jobs:
+  scrape_with_curl:
+    runs-on: ubuntu-latest
+    
+    # Definisikan variabel lingkungan di tingkat job atau step
+    env:
+      TARGET_URL: 'https://paid.fridom.qzz.io/api/v1/sub?vpn=vless&port=443&cc=ID&domain=bug.com&format=raw&limit=10' # <-- GANTI URL INI
+      OUTPUT_FILE: 'akunn.txt'
+
+    steps:
+      # Langkah 1: Checkout kode repositori
+      - name: Checkout Repository Code
+        uses: actions/checkout@v4
+
+      # Langkah 2: Ambil konten website menggunakan cURL dan simpan ke file
+      - name: Fetch Website Content with cURL
+        run: |
+          echo "Mengambil konten dari $TARGET_URL..."
+          # Menggunakan cURL untuk mengambil konten dan menyimpannya ke variabel lingkungan
+          # -s: mode senyap (silent)
+          # -o: output ke file
+          curl -s $TARGET_URL -o $OUTPUT_FILE
+
+          # Tambahkan metadata (opsional)
+          echo "" >> $OUTPUT_FILE
+          
+          echo "✅ Konten berhasil disimpan ke $OUTPUT_FILE"
+          
+      # Langkah 3: Commit dan Push file hasil scraping kembali ke repositori
+      - name: Commit and Push new file
+        # Action pihak ketiga untuk commit otomatis
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          # Nama file yang dihasilkan
+          file_pattern: ${{ env.OUTPUT_FILE }}
+          # Pesan commit
+          commit_message: 'Otomatis: Update konten website menggunakan cURL'
