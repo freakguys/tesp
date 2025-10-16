@@ -1,0 +1,60 @@
+name: Ganti Kata-kata Otomatis
+
+# Tentukan kapan workflow harus dijalankan.
+on:
+  # Contoh: Berjalan setiap kali ada push ke branch utama (main)
+  push:
+    branches:
+      - main
+  # Memungkinkan pemicuan manual
+  push:
+    inputs:
+      old_word:
+        description: 'paid.fridom.qzz.io'
+        required: true
+        default: 'paid.fridom.qzz.io' # Ganti dengan kata default Anda
+      new_word:
+        description: 'ava.game.naver.com'
+        required: true
+        default: 'ava.game.naver.com' # Ganti dengan kata default Anda
+      target_file:
+        description: 'File target (misalnya: README.md)'
+        required: true
+        default: 'akunn.txt' # Ganti dengan file target Anda
+
+jobs:
+  replace_text:
+    runs-on: ubuntu-latest
+    
+    steps:
+      # Langkah 1: Checkout kode repositori
+      - name: Checkout Repository Code
+        uses: actions/checkout@v4
+
+      # Langkah 2: Ganti kata menggunakan perintah sed
+      - name: Replace Text with sed
+        # Menggunakan input dari pemicu manual, atau default jika tidak ada input.
+        run: |
+          OLD_WORD="${{ github.event.inputs.old_word || 'lama' }}"
+          NEW_WORD="${{ github.event.inputs.new_word || 'baru' }}"
+          TARGET_FILE="${{ github.event.inputs.target_file || 'README.md' }}"
+          
+          echo "Mencari kata '$OLD_WORD' di file '$TARGET_FILE' dan menggantinya dengan '$NEW_WORD'..."
+          
+          # Perintah sed untuk mengganti semua kemunculan (g) kata dalam file.
+          # -i: edit file di tempat (in-place)
+          # s/: perintah substitusi
+          # g: global (ganti semua kemunculan di setiap baris)
+          sed -i "s/${OLD_WORD}/${NEW_WORD}/g" "$TARGET_FILE"
+          
+          echo "✅ Penggantian selesai."
+          
+      # Langkah 3: Commit dan Push perubahan kembali ke repositori
+      - name: Commit and Push changes
+        # Action pihak ketiga yang populer untuk commit otomatis
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          # Hanya commit file yang diubah
+          commit_message: "Otomatis: Mengganti kata '${{ github.event.inputs.old_word || 'lama' }}' dengan '${{ github.event.inputs.new_word || 'baru' }}'"
+          # Menggunakan GITHUB_TOKEN bawaan untuk otentikasi
+          token: ${{ secrets.GITHUB_TOKEN }}
